@@ -1,0 +1,6 @@
+[submodule "exp_a/caracal"]
+	path = exp_a/caracal
+	url = https://github.com/CBCicada/caracal.git
+[submodule "ebpf-ima-linux"]
+	path = ebpf-ima-linux
+	url = git@github.com:CBCicada/ebpf-ima-linux.git
