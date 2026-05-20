@@ -29,6 +29,13 @@ sudo chmod +x /usr/local/bin/kubectl
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
 ```
 
+Running clusters on fedora could run into default limit of fs.inotify.max_user_instances
+So we need to raise it in sysctl
+Create file `/etc/sysctl.d/90-k8s-inotify.conf` with content
+```
+fs.inotify.max_user_instances = 1024
+```
+
 ## kernel
 
 Kernel is compiled in `~/ebpf-ima-eval-public/ebpf-ima-linux` with the checked-in

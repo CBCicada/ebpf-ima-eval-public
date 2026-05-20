@@ -25,3 +25,11 @@ Use the kernel build keys to generate new certs
 cd ~/ebpf-ima-eval-public/exp_b/keys/
 ./generate-keys.sh
 ```
+
+```bash
+cd ~/ebpf-ima-eval-public/exp_b/scripts
+./build-image.sh
+./cluster-up.sh
+sudo -E bash ./run_vuln.sh
+sudo -E bash ./revoke.sh
+```
