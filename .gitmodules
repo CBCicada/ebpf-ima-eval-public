@@ -4,3 +4,19 @@
 [submodule "ebpf-ima-linux"]
 	path = ebpf-ima-linux
 	url = git@github.com:CBCicada/ebpf-ima-linux.git
+[submodule "exp_c/cilium-patched"]
+	path = exp_c/cilium-patched
+	url = https://github.com/CBCicada/cilium.git
+	branch = exp-c-v1.18.5-post-fix
+[submodule "exp_c/cilium-vuln"]
+	path = exp_c/cilium-vuln
+	url = https://github.com/CBCicada/cilium.git
+	branch = exp-c-v1.18.5-pre-fix
+[submodule "exp_b/cilium-vuln"]
+	path = exp_b/cilium-vuln
+	url = https://github.com/CBCicada/cilium.git
+	branch = exp-b-v1.16.0-vuln
+[submodule "exp_b/cilium-patched"]
+	path = exp_b/cilium-patched
+	url = https://github.com/CBCicada/cilium.git
+	branch = exp-b-v1.16.4-patched
