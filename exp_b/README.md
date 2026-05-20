@@ -14,11 +14,6 @@ make -C daemon
 ./daemon/cilium-agent --version
 ```
 
-policy:
-```bash
-measure func=BPF_CHECK
-appraise func=BPF_CHECK ebpf_prog_type=BPF_PROG_TYPE_SCHED_CLS
-```
 
 Use the kernel build keys to generate new certs
 ```bash
