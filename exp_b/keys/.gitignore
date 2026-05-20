@@ -1,0 +1,3 @@
+signing_key*.pem
+signing_cert*.pem
+signing_cert*.der
