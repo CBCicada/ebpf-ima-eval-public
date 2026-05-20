@@ -1,6 +1,38 @@
 # assumptions / setup
-kernel is compiled in tree in wherever/ebpf-ima-eval-public/ebpf-ima-linux with
-the checked-in `kernel.config` copied to `ebpf-ima-linux/.config`.
+
+install Fedora 42.
+
+## host tools for exp B/C
+
+Install these before compiling the kernel.
+
+```bash
+sudo dnf install -y \
+  git curl ca-certificates jq \
+  make gcc gcc-c++ clang llvm llvm-devel elfutils-libelf-devel \
+  openssl keyutils bpftool golang \
+  moby-engine docker-compose containerd dnf-plugins-core
+
+sudo systemctl enable --now docker
+sudo usermod -aG docker "$USER"
+newgrp docker
+
+sudo curl -Lo /usr/local/bin/kind \
+  https://kind.sigs.k8s.io/dl/v0.24.0/kind-linux-amd64
+sudo chmod +x /usr/local/bin/kind
+
+KUBECTL_VERSION="$(curl -sL https://dl.k8s.io/release/stable.txt)"
+sudo curl -Lo /usr/local/bin/kubectl \
+  "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+sudo chmod +x /usr/local/bin/kubectl
+
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
+```
+
+## kernel
+
+Kernel is compiled in `~/ebpf-ima-eval-public/ebpf-ima-linux` with the checked-in
+`kernel.config` copied to `ebpf-ima-linux/.config`.
 
 ```bash
 cp ../kernel.config .config
@@ -13,7 +45,12 @@ sudo grubby --info=ALL
 sudo grubby --set-default-index=?
 ```
 
-ON A Fedora 42
+After kernel compilation, the build CA used by Exp B/C signer certs is at:
+
+```text
+~/ebpf-ima-eval-public/ebpf-ima-linux/certs/signing_key.pem
+~/ebpf-ima-eval-public/ebpf-ima-linux/certs/signing_key.x509
+```
 
 Then compile the custom bpftool
 
@@ -27,4 +64,17 @@ and symlink it
 sudo ln -sf ~/ebpf-ima-eval-public/ebpf-ima-linux/tools/bpf/bpftool/bpftool /usr/local/bin/bpftool
 ```
 
-Every exp are to be executed on a fresh boot. I have no password sudo setup.
+check:
+
+```bash
+docker info
+kind version
+kubectl version --client
+helm version --short
+go version
+sudo keyctl show %:.ima
+sudo keyctl show %:.blacklist
+ls /sys/kernel/security/ima/reappraise_ebpf
+```
+
+Every exp should be executed on a fresh boot.
