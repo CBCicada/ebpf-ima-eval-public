@@ -111,8 +111,7 @@ root@fedora:/sys/kernel/security/ima# echo "appraise func=BPF_CHECK ebpf_prog_ty
 
 then trigger reappraisal
 ```bash
-root@fedora:/sys/kernel/security/ima# time echo "signal=10 timeout=5000 force=1" > /sys/kern
-el/security/ima/reappraise_ebpf
+root@fedora:/sys/kernel/security/ima# time echo "signal=10 timeout=5000 force=1" > /sys/kernel/security/ima/reappraise_ebpf
 
 real    0m1.435s
 user    0m0.005s

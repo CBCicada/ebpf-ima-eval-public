@@ -27,4 +27,4 @@ and symlink it
 sudo ln -sf ~/ebpf-ima-eval-public/ebpf-ima-linux/tools/bpf/bpftool/bpftool /usr/local/bin/bpftool
 ```
 
-Every exp are to be executed on a fresh boot.
+Every exp are to be executed on a fresh boot. I have no password sudo setup.
