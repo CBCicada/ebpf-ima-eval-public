@@ -84,6 +84,7 @@ else
 fi
 
 say "triggering eBPF reappraise"
+reappraise_start_ns="$(date +%s%N)"
 echo 1 > "$REAPPRAISE"
 sleep 2
 
@@ -138,7 +139,10 @@ fi
 if [[ "$patched_hash" == "$vuln_hash" ]]; then
     die "current endpoint program is still the blacklisted hash"
 fi
+reappraise_end_ns="$(date +%s%N)"
+reappraise_ms="$(((reappraise_end_ns - reappraise_start_ns) / 1000000))"
 say "current hash differs from blacklisted hash"
+say "reappraise-to-patched endpoint time: ${reappraise_ms} ms"
 
 curl_probe() {
     local path="$1"
@@ -166,6 +170,7 @@ private=$private_code
 private_server=$private_server
 vuln_hash=$vuln_hash
 patched_hash=$patched_hash
+reappraise_ms=$reappraise_ms
 EOF
 
 if [[ "$public_code" != "200" ]]; then
