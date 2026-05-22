@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0
+#include <linux/bpf.h>
+
+#define SEC(name) __attribute__((section(name), used))
+
+SEC("tracepoint/raw_syscalls/sys_enter")
+int purge_target(void *ctx)
+{
+    volatile unsigned long long salt = @SALT@ULL;
+
+    (void)ctx;
+    return salt & 1;
+}
+
+char LICENSE[] SEC("license") = "GPL";
