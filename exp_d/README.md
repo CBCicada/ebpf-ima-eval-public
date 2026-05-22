@@ -14,25 +14,6 @@ PAYLOAD_KB=256   -> build/payload_256kb.bpf.o   ~271 KB
 PAYLOAD_KB=1024  -> build/payload_1024kb.bpf.o  ~1 MB
 ```
 
-## Signing
-
-Every run uses signed bpftool loading:
-
-```bash
-bpftool -L -S -k keys/signing_key.pem -i keys/signing_cert.pem prog load ...
-```
-
-`-L` is required because this custom bpftool signs programs through the generated-loader path.
-
-This is intentional. The experiment compares IMA policy/enforcement overhead, not signed-vs-unsigned loading. Put the signing key and cert at:
-
-```text
-exp_d/keys/signing_key.pem
-exp_d/keys/signing_cert.pem
-```
-
-For appraisal modes, make sure the signer certificate is also trusted by `.ima` before running.
-
 ## Run Modes
 
 `make` defaults to running the benchmark. It builds the selected payload object and `load_bench`, then writes raw data under `results/`.

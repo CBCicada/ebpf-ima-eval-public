@@ -38,15 +38,6 @@ echo "measure func=BPF_CHECK ebpf_prog_type=BPF_PROG_TYPE_TRACEPOINT" | sudo tee
 echo "appraise func=BPF_CHECK ebpf_prog_type=BPF_PROG_TYPE_TRACEPOINT" | sudo tee /sys/kernel/security/ima/policy
 ```
 
-Do not use broad `func=BPF_CHECK` rules for this experiment. System services can
-load their own BPF programs, and broad reappraisal can purge those programs.
-
-The runner signs the generated loader skeleton with the exp_e signer:
-
-```text
-bpftool -S -k keys/signing_key.pem -i keys/signing_cert.pem gen skeleton ...
-```
-
 ## Run Examples
 
 One program, 100 program pins:
