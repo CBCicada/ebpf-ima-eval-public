@@ -1,0 +1,22 @@
+held kind=obj fd=3 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_0 slot=-1
+held kind=obj fd=4 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_1 slot=-1
+held kind=obj fd=5 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_2 slot=-1
+held kind=obj fd=6 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_3 slot=-1
+held kind=obj fd=7 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_4 slot=-1
+held kind=obj fd=8 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_5 slot=-1
+held kind=obj fd=9 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_6 slot=-1
+held kind=obj fd=10 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_7 slot=-1
+held kind=obj fd=11 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_8 slot=-1
+held kind=obj fd=12 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_9 slot=-1
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=obj fd=3 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_0 slot=-1 state=closed
+fd_state kind=obj fd=4 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_1 slot=-1 state=closed
+fd_state kind=obj fd=5 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_2 slot=-1 state=closed
+fd_state kind=obj fd=6 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_3 slot=-1 state=closed
+fd_state kind=obj fd=7 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_4 slot=-1 state=closed
+fd_state kind=obj fd=8 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_5 slot=-1 state=closed
+fd_state kind=obj fd=9 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_6 slot=-1 state=closed
+fd_state kind=obj fd=10 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_7 slot=-1 state=closed
+fd_state kind=obj fd=11 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_8 slot=-1 state=closed
+fd_state kind=obj fd=12 path=/sys/fs/bpf/ima_exp_e_1779688618/links/link_0_9 slot=-1 state=closed

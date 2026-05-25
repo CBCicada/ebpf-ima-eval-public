@@ -1,0 +1,12 @@
+held kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=0 tracepoint=raw_syscalls/sys_enter
+held kind=link fd=6 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=1 tracepoint=raw_syscalls/sys_exit
+held kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=2 tracepoint=sched/sched_switch
+held kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=3 tracepoint=sched/sched_wakeup
+held kind=link fd=9 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=4 tracepoint=sched/sched_wakeup_new
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=0 state=closed
+fd_state kind=link fd=6 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=1 state=closed
+fd_state kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=2 state=closed
+fd_state kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=3 state=closed
+fd_state kind=link fd=9 path=/sys/fs/bpf/ima_exp_e_1779688594/prog_0_base slot=4 state=closed

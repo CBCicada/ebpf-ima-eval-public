@@ -1,0 +1,22 @@
+held kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=0 tracepoint=raw_syscalls/sys_enter
+held kind=link fd=6 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=1 tracepoint=raw_syscalls/sys_exit
+held kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=2 tracepoint=sched/sched_switch
+held kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=3 tracepoint=sched/sched_wakeup
+held kind=link fd=9 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=4 tracepoint=sched/sched_wakeup_new
+held kind=link fd=10 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=5 tracepoint=sched/sched_process_fork
+held kind=link fd=11 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=6 tracepoint=sched/sched_process_exit
+held kind=link fd=12 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=7 tracepoint=sched/sched_process_exec
+held kind=link fd=13 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=8 tracepoint=irq/softirq_entry
+held kind=link fd=14 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=9 tracepoint=irq/softirq_exit
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=0 state=closed
+fd_state kind=link fd=6 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=1 state=closed
+fd_state kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=2 state=closed
+fd_state kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=3 state=closed
+fd_state kind=link fd=9 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=4 state=closed
+fd_state kind=link fd=10 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=5 state=closed
+fd_state kind=link fd=11 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=6 state=closed
+fd_state kind=link fd=12 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=7 state=closed
+fd_state kind=link fd=13 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=8 state=closed
+fd_state kind=link fd=14 path=/sys/fs/bpf/ima_exp_e_1779688596/prog_0_base slot=9 state=closed

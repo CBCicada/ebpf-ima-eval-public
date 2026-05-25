@@ -1,0 +1,69 @@
+held kind=obj fd=3 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_0_base slot=-1
+held kind=obj fd=4 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_0_base slot=-1
+held kind=obj fd=5 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_1_base slot=-1
+held kind=obj fd=6 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_1_base slot=-1
+held kind=obj fd=7 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_2_base slot=-1
+held kind=obj fd=8 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_2_base slot=-1
+held kind=obj fd=9 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_3_base slot=-1
+held kind=obj fd=10 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_3_base slot=-1
+held kind=obj fd=11 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_4_base slot=-1
+held kind=obj fd=12 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_4_base slot=-1
+held kind=obj fd=13 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_5_base slot=-1
+held kind=obj fd=14 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_5_base slot=-1
+held kind=obj fd=15 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_6_base slot=-1
+held kind=obj fd=16 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_6_base slot=-1
+held kind=obj fd=17 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_7_base slot=-1
+held kind=obj fd=18 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_7_base slot=-1
+held kind=obj fd=19 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_8_base slot=-1
+held kind=obj fd=20 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_8_base slot=-1
+held kind=obj fd=21 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_9_base slot=-1
+held kind=obj fd=22 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_9_base slot=-1
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=obj fd=3 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_0_base slot=-1 state=closed
+fd_state kind=obj fd=4 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_0_base slot=-1 state=closed
+fd_state kind=obj fd=5 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_1_base slot=-1 state=open
+fd_state kind=obj fd=6 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_1_base slot=-1 state=open
+fd_state kind=obj fd=7 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_2_base slot=-1 state=open
+fd_state kind=obj fd=8 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_2_base slot=-1 state=open
+fd_state kind=obj fd=9 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_3_base slot=-1 state=open
+fd_state kind=obj fd=10 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_3_base slot=-1 state=open
+fd_state kind=obj fd=11 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_4_base slot=-1 state=open
+fd_state kind=obj fd=12 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_4_base slot=-1 state=open
+fd_state kind=obj fd=13 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_5_base slot=-1 state=open
+fd_state kind=obj fd=14 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_5_base slot=-1 state=open
+fd_state kind=obj fd=15 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_6_base slot=-1 state=open
+fd_state kind=obj fd=16 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_6_base slot=-1 state=open
+fd_state kind=obj fd=17 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_7_base slot=-1 state=open
+fd_state kind=obj fd=18 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_7_base slot=-1 state=open
+fd_state kind=obj fd=19 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_8_base slot=-1 state=open
+fd_state kind=obj fd=20 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_8_base slot=-1 state=open
+fd_state kind=obj fd=21 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_9_base slot=-1 state=open
+fd_state kind=obj fd=22 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_9_base slot=-1 state=open
+signal signo=SIGUSR1 count=2
+fd_state kind=obj fd=5 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_1_base slot=-1 state=closed
+fd_state kind=obj fd=6 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_1_base slot=-1 state=closed
+signal signo=SIGUSR1 count=3
+fd_state kind=obj fd=7 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_2_base slot=-1 state=closed
+fd_state kind=obj fd=8 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_2_base slot=-1 state=closed
+signal signo=SIGUSR1 count=4
+fd_state kind=obj fd=9 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_3_base slot=-1 state=closed
+fd_state kind=obj fd=10 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_3_base slot=-1 state=closed
+signal signo=SIGUSR1 count=5
+fd_state kind=obj fd=11 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_4_base slot=-1 state=closed
+fd_state kind=obj fd=12 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_4_base slot=-1 state=closed
+signal signo=SIGUSR1 count=6
+fd_state kind=obj fd=13 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_5_base slot=-1 state=closed
+fd_state kind=obj fd=14 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_5_base slot=-1 state=closed
+signal signo=SIGUSR1 count=7
+fd_state kind=obj fd=15 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_6_base slot=-1 state=closed
+fd_state kind=obj fd=16 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_6_base slot=-1 state=closed
+signal signo=SIGUSR1 count=8
+fd_state kind=obj fd=17 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_7_base slot=-1 state=closed
+fd_state kind=obj fd=18 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_7_base slot=-1 state=closed
+signal signo=SIGUSR1 count=9
+fd_state kind=obj fd=19 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_8_base slot=-1 state=closed
+fd_state kind=obj fd=20 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_8_base slot=-1 state=closed
+signal signo=SIGUSR1 count=10
+fd_state kind=obj fd=21 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_9_base slot=-1 state=closed
+fd_state kind=obj fd=22 path=/sys/fs/bpf/ima_exp_e_1779688621/prog_9_base slot=-1 state=closed

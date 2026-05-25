@@ -40,6 +40,18 @@ echo "appraise func=BPF_CHECK ebpf_prog_type=BPF_PROG_TYPE_TRACEPOINT" | sudo te
 
 ## Run Examples
 
+This is the script that uses all the indepenedent runs below. Make sure the policies are activated before running this.
+
+Run the full batch of data-collection commands:
+
+```bash
+cd ~/ebpf-ima-eval-public/exp_e
+./run.sh
+```
+
+`run.sh` is just a sequential list of `python3 run.py ...` commands. It runs the baseline, single-resource scaling cases, mixed stress cases, then `python3 analyze.py results`.
+
+
 One program, 100 program pins:
 
 ```bash

@@ -1,0 +1,4 @@
+held kind=obj fd=3 path=/sys/fs/bpf/ima_exp_e_1779688564/prog_0_base slot=-1
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=obj fd=3 path=/sys/fs/bpf/ima_exp_e_1779688564/prog_0_base slot=-1 state=closed

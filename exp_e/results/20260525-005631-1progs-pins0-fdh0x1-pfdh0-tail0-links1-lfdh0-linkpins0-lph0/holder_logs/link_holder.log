@@ -1,0 +1,4 @@
+held kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688591/prog_0_base slot=0 tracepoint=raw_syscalls/sys_enter
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688591/prog_0_base slot=0 state=closed

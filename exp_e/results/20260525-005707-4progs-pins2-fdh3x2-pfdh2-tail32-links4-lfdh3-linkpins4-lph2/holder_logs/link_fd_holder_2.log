@@ -1,0 +1,14 @@
+held kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_0_base slot=6 tracepoint=sched/sched_process_exit
+held kind=link fd=6 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_1_base slot=6 tracepoint=sched/sched_process_exit
+held kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_2_base slot=6 tracepoint=sched/sched_process_exit
+held kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_3_base slot=6 tracepoint=sched/sched_process_exit
+ready
+signal signo=SIGUSR1 count=1
+fd_state kind=link fd=5 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_0_base slot=6 state=closed
+fd_state kind=link fd=6 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_1_base slot=6 state=closed
+fd_state kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_2_base slot=6 state=open
+fd_state kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_3_base slot=6 state=open
+signal signo=SIGUSR1 count=2
+fd_state kind=link fd=7 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_2_base slot=6 state=closed
+signal signo=SIGUSR1 count=3
+fd_state kind=link fd=8 path=/sys/fs/bpf/ima_exp_e_1779688627/prog_3_base slot=6 state=closed
