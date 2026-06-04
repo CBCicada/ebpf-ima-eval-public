@@ -9,7 +9,8 @@ Install these before compiling the kernel.
 ```bash
 sudo dnf install -y \
   git curl ca-certificates jq \
-  make gcc gcc-c++ clang llvm llvm-devel elfutils-libelf-devel \
+  make gcc gcc-c++ flex bison dwarves openssl-devel \
+  clang llvm llvm-devel elfutils-libelf-devel \
   openssl keyutils bpftool golang \
   moby-engine docker-compose containerd dnf-plugins-core
 
