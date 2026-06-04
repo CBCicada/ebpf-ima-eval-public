@@ -53,6 +53,19 @@ sudo grubby --info=ALL
 sudo grubby --set-default-index=?
 ```
 
+`linux-6.19-rc4` is included as a control kernel submodule pinned to upstream
+Linux `v6.19-rc4`. It contains signed BPF support, including KP Singh's BPF
+signature verification and bpftool signing support, but does not contain the
+eBPF-IMA measurement, appraisal, or reappraisal integration. Initialize it only
+when collecting control-kernel data:
+
+```bash
+cd ~/ebpf-ima-eval-public/linux-6.19-rc4
+cp ../kernel.config .config
+make olddefconfig
+make -j$(nproc)
+```
+
 After kernel compilation, the build CA used by Exp B/C signer certs is at:
 
 ```text

@@ -4,6 +4,9 @@
 [submodule "ebpf-ima-linux"]
 	path = ebpf-ima-linux
 	url = git@github.com:CBCicada/ebpf-ima-linux.git
+[submodule "linux-6.19-rc4"]
+	path = linux-6.19-rc4
+	url = https://github.com/torvalds/linux.git
 [submodule "exp_c/cilium-patched"]
 	path = exp_c/cilium-patched
 	url = https://github.com/CBCicada/cilium.git
