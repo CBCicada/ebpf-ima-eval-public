@@ -24,6 +24,7 @@ cd ~/ebpf-ima-eval-public/exp_b/keys/
 ```bash
 cd ~/ebpf-ima-eval-public/exp_b/scripts
 ./build-image.sh
+kind delete cluster --name exp-b
 ./cluster-up.sh
 sudo -E bash ./run_vuln.sh
 sudo -E bash ./revoke.sh
