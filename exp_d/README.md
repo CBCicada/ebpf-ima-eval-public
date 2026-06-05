@@ -65,6 +65,8 @@ make RUN_NAME=ima_measure_unique_unsigned SIGNED=0 UNIQUE=1 ITERS=200
 make RUN_NAME=ima_measure_unique_signed SIGNED=1 UNIQUE=1 ITERS=200
 ```
 
+Unique runs use an automatic timestamp-derived `SALT_BASE` so repeated unique runs in one boot do not reuse the same BPF digests.
+
 ### ebpf-ima-linux appraise
 
 For appraisal, start from a fresh boot and add only appraisal policy.

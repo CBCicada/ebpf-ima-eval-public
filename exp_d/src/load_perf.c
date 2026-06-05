@@ -41,6 +41,7 @@ struct config {
     int iters;
     int signed_load;
     int unique;
+    int salt_base;
     int keyring_id;
     const char *sign_key;
     const char *sign_cert;
@@ -176,7 +177,7 @@ static void init_load_attr(struct sample *sample, const struct config *cfg)
 static void usage(const char *prog)
 {
     fprintf(stderr,
-            "usage: %s --iters N [--unique] [--signed --sign-key KEY --sign-cert CERT --keyring-id ID]\n",
+            "usage: %s --iters N [--unique --salt-base N] [--signed --sign-key KEY --sign-cert CERT --keyring-id ID]\n",
             prog);
 }
 
@@ -197,6 +198,7 @@ static int parse_args(int argc, char **argv, struct config *cfg)
 {
     memset(cfg, 0, sizeof(*cfg));
     cfg->iters = 1000;
+    cfg->salt_base = 1;
 
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "--iters") && i + 1 < argc) {
@@ -206,6 +208,9 @@ static int parse_args(int argc, char **argv, struct config *cfg)
             cfg->signed_load = 1;
         } else if (!strcmp(argv[i], "--unique")) {
             cfg->unique = 1;
+        } else if (!strcmp(argv[i], "--salt-base") && i + 1 < argc) {
+            if (parse_int(argv[++i], &cfg->salt_base))
+                return -1;
         } else if (!strcmp(argv[i], "--sign-key") && i + 1 < argc) {
             cfg->sign_key = argv[++i];
         } else if (!strcmp(argv[i], "--sign-cert") && i + 1 < argc) {
@@ -248,7 +253,7 @@ int main(int argc, char **argv)
     }
 
     for (int i = 0; i < cfg.iters; i++)
-        init_prog(samples[i].insns, cfg.unique ? i + 1 : 1);
+        init_prog(samples[i].insns, cfg.unique ? cfg.salt_base + i : 1);
 
     if (cfg.signed_load) {
         key = read_private_key(cfg.sign_key);

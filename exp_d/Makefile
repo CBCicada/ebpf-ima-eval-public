@@ -5,6 +5,7 @@ ITERS ?= 1000
 RUN_NAME ?= run
 SIGNED ?= 0
 UNIQUE ?= 0
+SALT_BASE ?= $(shell n=$$(date +%s%N); printf '%d' $$((n % 1000000000)))
 SIGNER_TAG ?= $(shell if uname -r | grep -q rc4; then printf 'linux_6_19_rc4'; elif uname -r | grep -q rc1; then printf 'ebpf_ima_linux'; else printf 'unknown'; fi)
 SIGN_KEY ?= keys/signing_key.$(SIGNER_TAG).pem
 SIGN_CERT ?= keys/signing_cert.$(SIGNER_TAG).pem
@@ -28,7 +29,7 @@ run: load_perf
 	out="results/$$(date +%Y%m%d-%H%M%S)-$(RUN_NAME)"; \
 	mkdir -p "$$out"; \
 	args="--iters $(ITERS)"; \
-	if [ "$(UNIQUE)" = "1" ]; then args="$$args --unique"; fi; \
+	if [ "$(UNIQUE)" = "1" ]; then args="$$args --unique --salt-base $(SALT_BASE)"; fi; \
 	if [ "$(SIGNED)" = "1" ]; then \
 		test -f "$(SIGN_KEY)" || { printf 'missing SIGN_KEY=%s\n' "$(SIGN_KEY)" >&2; exit 2; }; \
 		test -f "$(SIGN_CERT)" || { printf 'missing SIGN_CERT=%s\n' "$(SIGN_CERT)" >&2; exit 2; }; \
@@ -42,6 +43,7 @@ run: load_perf
 		printf 'iters\t%s\n' "$(ITERS)"; \
 		printf 'signed\t%s\n' "$(SIGNED)"; \
 		printf 'unique\t%s\n' "$(UNIQUE)"; \
+		printf 'salt_base\t%s\n' "$(SALT_BASE)"; \
 	} > "$$out/meta.tsv"; \
 	sudo ./load_perf $$args > "$$out/load.tsv"; \
 	printf '%s\n' "$$out"
