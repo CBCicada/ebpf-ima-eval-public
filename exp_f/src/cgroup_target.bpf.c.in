@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0
+#include <linux/bpf.h>
+
+#define SEC(name) __attribute__((section(name), used))
+
+SEC("cgroup/sock_create")
+int cgroup_sock_create(struct bpf_sock *sock)
+{
+    volatile unsigned long long salt = @SALT@ULL;
+
+    (void)sock;
+    (void)salt;
+    return 1;
+}
+
+char LICENSE[] SEC("license") = "GPL";
