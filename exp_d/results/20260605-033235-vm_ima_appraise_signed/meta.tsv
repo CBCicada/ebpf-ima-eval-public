@@ -1,0 +1,5 @@
+run_name	vm_ima_appraise_signed
+iters	1000
+signed	1
+unique	0
+salt_base	354434953

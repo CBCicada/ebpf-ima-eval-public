@@ -1,0 +1,5 @@
+run_name	vm_ima_no_rule_signed
+iters	1000
+signed	1
+unique	0
+salt_base	277490196

@@ -1,0 +1,5 @@
+run_name	vm_ima_measure_unique_signed
+iters	200
+signed	1
+unique	1
+salt_base	66086186
