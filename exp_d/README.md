@@ -1,45 +1,57 @@
-# exp_d: eBPF IMA load overhead
+# exp_d: raw eBPF load performance
 
-This experiment measures repeated signed `bpftool prog load` latency for a socket-filter eBPF object with a configurable payload size.
+This experiment measures raw `BPF_PROG_LOAD` latency for a tiny socket-filter eBPF program.
 
-`PAYLOAD_KB` is the requested payload size embedded in the object. The final `.o` is slightly larger because it also contains ELF metadata, BTF/debug info, the license section, and the tiny BPF program.
+Program attributes and signatures are prepared before timing. Each row times only the `bpf(BPF_PROG_LOAD)` syscall.
 
-Default to 1000 iterations, can be changed through load_bench.c
+## Setup
 
-Examples from local compile checks:
-
-```text
-PAYLOAD_KB=88    -> build/payload_88kb.bpf.o    ~99 KB
-PAYLOAD_KB=256   -> build/payload_256kb.bpf.o   ~271 KB
-PAYLOAD_KB=1024  -> build/payload_1024kb.bpf.o  ~1 MB
-```
-
-## Run Modes
-
-`make` defaults to running the benchmark. It builds the selected payload object and `load_bench`, then writes raw data under `results/`.
-
-All runs use signed `bpftool` loads. Generate the exp_d signer once if the key files are missing:
+Generate the signers once if the key files are missing:
 
 ```bash
 cd ~/ebpf-ima-eval-public/exp_d
 bash keys/generate-keys.sh
-sudo keyctl padd asymmetric "" %:.ima < keys/signing_cert.der
 ```
 
-Do the keyctl padd every reboot
+Load the cert for the running kernel after every reboot.
 
-IMA policy is append-only, so run modes in this order within one boot: `no_ima`, then `measure`, then `measure_appraise`. To get an `appraise`-only run, use a fresh boot and add only the appraisal rule.
+For `linux-6.19-rc4`:
 
-### 1. no_ima
+```bash
+sudo keyctl padd asymmetric "" %:.ima < keys/signing_cert.linux_6_19_rc4.der
+```
+
+For `ebpf-ima-linux`:
+
+```bash
+sudo keyctl padd asymmetric "" %:.ima < keys/signing_cert.ebpf_ima_linux.der
+```
+
+`make` chooses the signed-load key by `uname -r`: `rc4` uses `keys/signing_key.linux_6_19_rc4.pem`, and `rc1` uses `keys/signing_key.ebpf_ima_linux.pem`.
+
+## Runs
+
+### linux-6.19-rc4 baseline
+
+Baseline has no policy rule to be added.
+
+```bash
+cd ~/ebpf-ima-eval-public/exp_d
+make RUN_NAME=baseline_unsigned SIGNED=0 UNIQUE=0 ITERS=1000
+make RUN_NAME=baseline_signed SIGNED=1 UNIQUE=0 ITERS=1000
+```
+
+### ebpf-ima-linux no rule
 
 Do not add any `func=BPF_CHECK` IMA policy rule.
 
 ```bash
 cd ~/ebpf-ima-eval-public/exp_d
-make PAYLOAD_KB=88 RUN_NAME=no_ima
+make RUN_NAME=ima_no_rule_unsigned SIGNED=0 UNIQUE=0 ITERS=1000
+make RUN_NAME=ima_no_rule_signed SIGNED=1 UNIQUE=0 ITERS=1000
 ```
 
-### 2. measure
+### ebpf-ima-linux measure
 
 Add measurement policy, then run:
 
@@ -47,48 +59,35 @@ Add measurement policy, then run:
 echo "measure func=BPF_CHECK" | sudo tee /sys/kernel/security/ima/policy
 
 cd ~/ebpf-ima-eval-public/exp_d
-make PAYLOAD_KB=88 RUN_NAME=measure
+make RUN_NAME=ima_measure_identical_unsigned SIGNED=0 UNIQUE=0 ITERS=1000
+make RUN_NAME=ima_measure_identical_signed SIGNED=1 UNIQUE=0 ITERS=1000
+make RUN_NAME=ima_measure_unique_unsigned SIGNED=0 UNIQUE=1 ITERS=200
+make RUN_NAME=ima_measure_unique_signed SIGNED=1 UNIQUE=1 ITERS=200
 ```
 
-### 3. appraise-only
+### ebpf-ima-linux appraise
 
-For appraisal without measurement, start from a fresh boot, add only appraisal policy, then run.
+For appraisal, start from a fresh boot and add only appraisal policy.
 
 ```bash
 echo "appraise func=BPF_CHECK" | sudo tee /sys/kernel/security/ima/policy
 
 cd ~/ebpf-ima-eval-public/exp_d
-make PAYLOAD_KB=88 RUN_NAME=appraise
+make RUN_NAME=ima_appraise_signed SIGNED=1 UNIQUE=0 ITERS=1000
 ```
-
-### 4. measure_appraise
-
-If you already ran `measure` in this boot, add appraisal and run again:
-
-```bash
-echo "appraise func=BPF_CHECK" | sudo tee /sys/kernel/security/ima/policy
-
-cd ~/ebpf-ima-eval-public/exp_d
-make PAYLOAD_KB=88 RUN_NAME=measure_appraise
-```
-
-If starting from a fresh boot, add both rules before the `measure_appraise` run.
-
-Repeat the same mode with other payload sizes by changing `PAYLOAD_KB`, for example `PAYLOAD_KB=256` or `PAYLOAD_KB=1024`.
 
 ## Data Files
 
 Each `make` run creates one result directory:
 
 ```text
-results/<timestamp>-<RUN_NAME>-<PAYLOAD_KB>kb/
+results/<timestamp>-<RUN_NAME>/
 ```
 
 Files:
 
-- `load.tsv`: raw per-load timing, one row per successful signed load: `iteration<TAB>elapsed_ms<TAB>0`. The loader exits immediately on the first load error.
-
-The number of iterations is the line count of `load.tsv`.
+- `load.tsv`: raw per-load timing: `iteration<TAB>elapsed_ms<TAB>rc<TAB>errno`. The loader exits after the first load error.
+- `meta.tsv`: run settings.
 
 Analyze result directories after collecting runs:
 
@@ -96,6 +95,4 @@ Analyze result directories after collecting runs:
 python3 analyze.py results
 ```
 
-This prints a short text summary for each result directory.
-
-`make clean` deletes generated build artifacts and local `results/`. Copy or move any result files you want to keep before cleaning.
+`make clean` deletes the local benchmark binary and `results/`.

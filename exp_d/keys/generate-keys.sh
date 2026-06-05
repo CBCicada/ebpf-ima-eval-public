@@ -2,16 +2,12 @@
 set -euo pipefail
 
 OUT_DIR="${OUT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
-KERNEL_CA_KEY="${KERNEL_CA_KEY:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/ebpf-ima-linux/certs/signing_key.pem}"
-KERNEL_CA_CERT="${KERNEL_CA_CERT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/ebpf-ima-linux/certs/signing_key.x509}"
-
-[[ -f "$KERNEL_CA_KEY" ]] || { echo "missing kernel CA key: $KERNEL_CA_KEY" >&2; exit 1; }
-[[ -f "$KERNEL_CA_CERT" ]] || { echo "missing kernel CA cert: $KERNEL_CA_CERT" >&2; exit 1; }
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 mkdir -p "$OUT_DIR"
 
 gen_pair() {
-    local tag="$1" cn="$2"
+    local tag="$1" cn="$2" ca_key="$3" ca_cert="$4"
     local key="$OUT_DIR/signing_key${tag}.pem"
     local cert="$OUT_DIR/signing_cert${tag}.pem"
     local der="$OUT_DIR/signing_cert${tag}.der"
@@ -28,7 +24,7 @@ gen_pair() {
 
     cfg="$(mktemp)"
     csr="$(mktemp)"
-    trap 'rm -f "$cfg" "$csr"' RETURN
+    trap "rm -f '$cfg' '$csr'" RETURN
 
     cat > "$cfg" <<EOF
 [req]
@@ -49,8 +45,8 @@ EOF
         -config "$cfg" -batch 2>/dev/null
 
     openssl x509 -req -in "$csr" \
-        -CA "$KERNEL_CA_CERT" -CAform DER \
-        -CAkey "$KERNEL_CA_KEY" \
+        -CA "$ca_cert" -CAform DER \
+        -CAkey "$ca_key" \
         -CAcreateserial \
         -days 36500 -sha256 \
         -extensions v3 -extfile "$cfg" \
@@ -64,6 +60,20 @@ EOF
     openssl x509 -in "$cert" -noout -fingerprint -sha256
 }
 
-gen_pair "" "ebpf-ima-exp-d-signer"
+gen_from_tree() {
+    local tag="$1" tree="$2" cn="$3"
+    local ca_key="$tree/certs/signing_key.pem"
+    local ca_cert="$tree/certs/signing_key.x509"
+
+    if [[ ! -f "$ca_key" || ! -f "$ca_cert" ]]; then
+        echo "warning: missing kernel CA files under $tree/certs; skipping $tag" >&2
+        return 0
+    fi
+
+    gen_pair ".$tag" "$cn" "$ca_key" "$ca_cert"
+}
+
+gen_from_tree "linux_6_19_rc4" "$ROOT/linux-6.19-rc4" "ebpf-ima-exp-d-signer-linux-6.19-rc4"
+gen_from_tree "ebpf_ima_linux" "$ROOT/ebpf-ima-linux" "ebpf-ima-exp-d-signer-ebpf-ima-linux"
 
 echo "key material: $OUT_DIR"

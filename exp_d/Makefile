@@ -1,60 +1,50 @@
 ROOT := ..
-BUILD := build
 .DEFAULT_GOAL := run
 
-ifeq ($(filter clean,$(MAKECMDGOALS)),)
-ifeq ($(origin PAYLOAD_KB), undefined)
-$(error PAYLOAD_KB is required, e.g. make PAYLOAD_KB=88 RUN_NAME=no_ima)
-endif
-endif
-
-OBJ := build/payload_$(PAYLOAD_KB)kb.bpf.o
-PIN_PATH ?= /sys/fs/bpf/ima_exp_d_loadbench
+ITERS ?= 1000
 RUN_NAME ?= run
-SIGN_KEY ?= keys/signing_key.pem
-SIGN_CERT ?= keys/signing_cert.pem
+SIGNED ?= 0
+UNIQUE ?= 0
+SIGNER_TAG ?= $(shell if uname -r | grep -q rc4; then printf 'linux_6_19_rc4'; elif uname -r | grep -q rc1; then printf 'ebpf_ima_linux'; else printf 'unknown'; fi)
+SIGN_KEY ?= keys/signing_key.$(SIGNER_TAG).pem
+SIGN_CERT ?= keys/signing_cert.$(SIGNER_TAG).pem
+KEYRING_ID ?=
 
-CLANG ?= clang
 CC ?= gcc
 CFLAGS ?= -O2 -Wall -Wextra
-BPF_CFLAGS ?= -O2 -g -target bpf
-BPF_INCLUDES := -I$(ROOT)/ebpf-ima-linux/tools/lib -I$(ROOT)/ebpf-ima-linux/tools/include/uapi
+CFLAGS += -I$(ROOT)/ebpf-ima-linux/tools/include/uapi
+LDLIBS += -lcrypto
 
-.PHONY: all clean load_bench payload run
+.PHONY: all clean run
 
 all: run
 
-load_bench: src/load_bench.c
-	$(CC) $(CFLAGS) \
-		-DOBJ_PATH='"$(OBJ)"' \
-		-DPIN_PATH='"$(PIN_PATH)"' \
-		-DSIGN_KEY='"$(SIGN_KEY)"' \
-		-DSIGN_CERT='"$(SIGN_CERT)"' \
-		-o $@ $<
+load_perf: src/load_perf.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDLIBS)
 
-$(BUILD):
-	mkdir -p $@
-
-$(BUILD)/%.bpf.o: src/%.bpf.c | $(BUILD)
-	$(CLANG) $(BPF_CFLAGS) $(BPF_INCLUDES) -c $< -o $@
-
-$(BUILD)/payload_$(PAYLOAD_KB)kb.bpf.c: src/payload.bpf.c.in | $(BUILD)
-	sed -e 's/@PAYLOAD_KB@/$(PAYLOAD_KB)/g' -e 's/@PROG_NAME@/payload_$(PAYLOAD_KB)kb/g' $< > $@
-
-$(BUILD)/payload_$(PAYLOAD_KB)kb.bpf.o: $(BUILD)/payload_$(PAYLOAD_KB)kb.bpf.c
-	$(CLANG) $(BPF_CFLAGS) $(BPF_INCLUDES) -c $< -o $@
-
-payload: $(BUILD)/payload_$(PAYLOAD_KB)kb.bpf.o
-
-run: payload load_bench
-	@test -f "$(SIGN_KEY)" || { printf 'missing SIGN_KEY=%s\n' "$(SIGN_KEY)" >&2; exit 2; }
-	@test -f "$(SIGN_CERT)" || { printf 'missing SIGN_CERT=%s\n' "$(SIGN_CERT)" >&2; exit 2; }
+run: load_perf
 	mkdir -p results
 	set -e; \
-	out="results/$$(date +%Y%m%d-%H%M%S)-$(RUN_NAME)-$(PAYLOAD_KB)kb"; \
+	out="results/$$(date +%Y%m%d-%H%M%S)-$(RUN_NAME)"; \
 	mkdir -p "$$out"; \
-	sudo ./load_bench > "$$out/load.tsv"; \
+	args="--iters $(ITERS)"; \
+	if [ "$(UNIQUE)" = "1" ]; then args="$$args --unique"; fi; \
+	if [ "$(SIGNED)" = "1" ]; then \
+		test -f "$(SIGN_KEY)" || { printf 'missing SIGN_KEY=%s\n' "$(SIGN_KEY)" >&2; exit 2; }; \
+		test -f "$(SIGN_CERT)" || { printf 'missing SIGN_CERT=%s\n' "$(SIGN_CERT)" >&2; exit 2; }; \
+		keyring="$(KEYRING_ID)"; \
+		if [ -z "$$keyring" ]; then keyring="$$(sudo keyctl describe %:.ima 2>/dev/null | cut -d: -f1)"; fi; \
+		test -n "$$keyring" || { printf 'missing KEYRING_ID and cannot resolve %%:.ima\n' >&2; exit 2; }; \
+		args="$$args --signed --sign-key $(SIGN_KEY) --sign-cert $(SIGN_CERT) --keyring-id $$keyring"; \
+	fi; \
+	{ \
+		printf 'run_name\t%s\n' "$(RUN_NAME)"; \
+		printf 'iters\t%s\n' "$(ITERS)"; \
+		printf 'signed\t%s\n' "$(SIGNED)"; \
+		printf 'unique\t%s\n' "$(UNIQUE)"; \
+	} > "$$out/meta.tsv"; \
+	sudo ./load_perf $$args > "$$out/load.tsv"; \
 	printf '%s\n' "$$out"
 
 clean:
-	rm -rf $(BUILD) load_bench results
+	rm -rf load_perf results
