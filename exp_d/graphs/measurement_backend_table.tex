@@ -1,0 +1,14 @@
+\begin{tabular}{llrr}
+\toprule
+Environment & Measured load & p50 (ms) & p99 (ms) \\
+\midrule
+Bare metal & identical unsigned & 0.017 & 0.039 \\
+Bare metal & unique unsigned & 3.986 & 4.772 \\
+Bare metal & identical signed & 0.285 & 0.535 \\
+Bare metal & unique signed & 4.524 & 5.479 \\
+VM & identical unsigned & 0.054 & 0.369 \\
+VM & unique unsigned & 0.051 & 0.135 \\
+VM & identical signed & 0.383 & 0.601 \\
+VM & unique signed & 0.324 & 0.479 \\
+\bottomrule
+\end{tabular}
