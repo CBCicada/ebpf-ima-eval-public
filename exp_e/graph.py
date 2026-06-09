@@ -126,7 +126,6 @@ def plot_program_scaling(results, out_dir):
 
     ax.set_xlabel("Revoked programs")
     ax.set_ylabel("Reappraisal latency (ms)")
-    ax.set_title("Revoked program count scaling")
     ax.set_xticks(xs)
     ax.set_ylim(0, max(ys) * 1.22)
     ax.grid(axis="both", linestyle=":", linewidth=0.7, alpha=0.7)
