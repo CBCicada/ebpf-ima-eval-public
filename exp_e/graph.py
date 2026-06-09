@@ -118,14 +118,12 @@ def plot_program_scaling(results, out_dir):
     xs = [count for count, _ in program_points]
     ys = [read_purge(results, label)["reappraise_ms"] for _, label in program_points]
     ax.plot(xs, ys, marker="o", linewidth=1.8, markersize=5.5, color="#4C78A8")
-    for x, y in zip(xs, ys):
-        label = f"{y / 1000:.3f} s" if y >= 1000 else f"{y:.0f} ms"
-        ax.text(x, y + 45, label, ha="center", va="bottom", fontsize=8)
 
-    ax.set_xlabel("Revoked programs")
-    ax.set_ylabel("Reappraisal latency (ms)")
+    ax.set_xlabel("Revoked programs", fontsize=16)
+    ax.set_ylabel("Reappraisal latency (ms)", fontsize=16)
     ax.set_xticks(xs)
     ax.set_ylim(0, max(ys) * 1.22)
+    ax.tick_params(axis="both", labelsize=16)
     ax.grid(axis="both", linestyle=":", linewidth=0.7, alpha=0.7)
     return save_pdf(fig, out_dir, "purge_program_scaling")
 
