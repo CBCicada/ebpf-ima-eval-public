@@ -26,9 +26,9 @@ def read_purge(results, label):
             for key, value in row.items()}
 
 
-def save_pdf(fig, out_dir, stem):
+def save_pdf(fig, out_dir, stem, pad_inches=0.05):
     path = out_dir / f"{stem}.pdf"
-    fig.savefig(path, bbox_inches="tight")
+    fig.savefig(path, bbox_inches="tight", pad_inches=pad_inches)
     plt.close(fig)
     return path
 
@@ -70,41 +70,39 @@ def plot_reference_fanout(results, out_dir):
         ], "#E45756", "v"),
     ]
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.5, 3.6))
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.9))
     x_labels = [1, 10, 100, 1000]
     x_positions = np.arange(len(x_labels))
     for name, points, color, marker in series:
         xs = np.arange(len(points))
         ys = [read_purge(results, label)["reappraise_ms"] for _, label in points]
         axes[0].plot(xs, ys, marker=marker, linewidth=1.8, markersize=5.5, color=color, label=name)
-        for x, y in zip(xs, ys):
-            axes[0].text(x, y + 0.9, f"{y:.1f}", ha="center", va="bottom", fontsize=7)
 
     axes[0].set_xticks(x_positions)
     axes[0].set_xticklabels([str(x) for x in x_labels])
-    axes[0].set_xlabel("References to one revoked program")
-    axes[0].set_ylabel("Reappraisal latency (ms)")
-    axes[0].set_title("Passive reference fanout")
+    axes[0].set_xlabel("References to one revoked program", fontsize=11)
+    axes[0].set_ylabel("Reappraisal latency (ms)", fontsize=11)
+    axes[0].set_title("Passive reference fanout", fontsize=11, pad=5)
     axes[0].set_ylim(0, 30)
+    axes[0].tick_params(axis="both", labelsize=10)
     axes[0].grid(axis="y", linestyle=":", linewidth=0.7, alpha=0.7)
-    axes[0].legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=3, frameon=False, fontsize=8)
+    axes[0].legend(loc="upper center", bbox_to_anchor=(0.5, -0.25), ncol=1, frameon=False, fontsize=10)
 
     for name, points, color, marker in link_series:
         xs = [count for count, _ in points]
         ys = [read_purge(results, label)["reappraise_ms"] for _, label in points]
         axes[1].plot(xs, ys, marker=marker, linewidth=1.8, markersize=5.5, color=color, label=name)
-        for x, y in zip(xs, ys):
-            axes[1].text(x, y + 0.9, f"{y:.1f}", ha="center", va="bottom", fontsize=7)
 
-    axes[1].set_xlabel("Links to one revoked program")
-    axes[1].set_ylabel("Reappraisal latency (ms)")
-    axes[1].set_title("Link fanout")
+    axes[1].set_xlabel("Links to one revoked program", fontsize=11)
+    axes[1].set_ylabel("Reappraisal latency (ms)", fontsize=11)
+    axes[1].set_title("Link fanout", fontsize=11, pad=5)
     axes[1].set_xticks([1, 5, 10, 18])
     axes[1].set_ylim(0, 32)
+    axes[1].tick_params(axis="both", labelsize=10)
     axes[1].grid(axis="y", linestyle=":", linewidth=0.7, alpha=0.7)
-    axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False, fontsize=8)
+    axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.25), ncol=1, frameon=False, fontsize=10)
 
-    fig.subplots_adjust(wspace=0.34, bottom=0.28)
+    fig.subplots_adjust(wspace=0.46, bottom=0.46, top=0.88)
     return save_pdf(fig, out_dir, "purge_reference_fanout")
 
 

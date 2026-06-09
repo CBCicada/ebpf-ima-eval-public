@@ -53,7 +53,7 @@ def run_summary(results, run_name):
     return summarize(latest_result_dir(results, run_name))
 
 
-def save_pdf(fig, out_dir, stem, pad_inches=0.02):
+def save_pdf(fig, out_dir, stem, pad_inches=0.05):
     path = out_dir / f"{stem}.pdf"
     fig.savefig(path, bbox_inches="tight", pad_inches=pad_inches)
     plt.close(fig)
@@ -123,8 +123,8 @@ def plot_load_admission_combined(results, out_dir):
     ]
     signed_pairs = [
         ("Control", "baseline_unsigned", "baseline_signed", "#72B7B2"),
-        ("Bare metal\nno rule", "ima_no_rule_unsigned", "ima_no_rule_signed", "#4C78A8"),
-        ("Bare metal\nmeasure", "ima_measure_identical_unsigned", "ima_measure_identical_signed", "#4C78A8"),
+        ("Bare\nmetal\nno rule", "ima_no_rule_unsigned", "ima_no_rule_signed", "#4C78A8"),
+        ("Bare\nmetal\nmeasure", "ima_measure_identical_unsigned", "ima_measure_identical_signed", "#4C78A8"),
         ("VM\nno rule", "vm_ima_no_rule_unsigned", "vm_ima_no_rule_signed", "#F58518"),
         ("VM\nmeasure", "vm_ima_measure_identical_unsigned", "vm_ima_measure_identical_signed", "#F58518"),
     ]
@@ -132,7 +132,7 @@ def plot_load_admission_combined(results, out_dir):
     fig, (ax_policy, ax_signed) = plt.subplots(
         1,
         2,
-        figsize=(6.4, 2.0),
+        figsize=(6.4, 2.35),
         constrained_layout=True,
         gridspec_kw={"width_ratios": [0.8, 1.35]},
     )
@@ -145,12 +145,12 @@ def plot_load_admission_combined(results, out_dir):
 
     ax_policy.bar(x, medians, color=colors, width=0.62)
     ax_policy.scatter(x, p99s, marker="_", s=90, color="black", linewidths=1.1, zorder=3)
-    ax_policy.set_title("(a) Policy path", fontsize=9, pad=2)
-    ax_policy.set_ylabel("Latency (ms)", fontsize=8)
+    ax_policy.set_title("(a) Policy path", fontsize=11, pad=5)
+    ax_policy.set_ylabel("Latency (ms)", fontsize=10)
     ax_policy.set_xticks(x)
-    ax_policy.set_xticklabels(labels, fontsize=7)
+    ax_policy.set_xticklabels(labels, fontsize=9)
     ax_policy.set_ylim(0, max(p99s) * 1.12)
-    ax_policy.tick_params(axis="y", labelsize=7)
+    ax_policy.tick_params(axis="y", labelsize=9)
     ax_policy.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
 
     labels = [label for label, _, _, _ in signed_pairs]
@@ -165,12 +165,12 @@ def plot_load_admission_combined(results, out_dir):
 
     ax_signed.bar(x, deltas, color=colors, width=0.62)
     ax_signed.axhline(0.3, color="black", linestyle="--", linewidth=0.8, alpha=0.65)
-    ax_signed.set_title("(b) Signed-load delta", fontsize=9, pad=2)
-    ax_signed.set_ylabel("Delta p50 (ms)", fontsize=8)
+    ax_signed.set_title("(b) Signed-load delta", fontsize=11, pad=5)
+    ax_signed.set_ylabel("Delta p50 (ms)", fontsize=10)
     ax_signed.set_xticks(x)
-    ax_signed.set_xticklabels(labels, fontsize=7)
+    ax_signed.set_xticklabels(labels, fontsize=9)
     ax_signed.set_ylim(0, max(deltas) * 1.12)
-    ax_signed.tick_params(axis="y", labelsize=7)
+    ax_signed.tick_params(axis="y", labelsize=9)
     ax_signed.grid(axis="y", linestyle=":", linewidth=0.6, alpha=0.7)
 
     return save_pdf(fig, out_dir, "load_admission_combined")
